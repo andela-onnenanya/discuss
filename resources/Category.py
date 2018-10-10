@@ -35,7 +35,7 @@ class CategoryResource(Resource):
         return { "status": 'success', 'data': result }, 201
     
     def put(self):
-        json_data = request.get_json(force=True)
+        json_data = json.loads(request.data)
         if not json_data:
                return {'message': 'No input data provided'}, 400
         # Validate and deserialize input
@@ -53,7 +53,7 @@ class CategoryResource(Resource):
         return { "status": 'success', 'data': result }, 204
     
     def delete(self):
-        json_data = request.get_json(force=True)
+        json_data = json.loads(request.data)
         if not json_data:
                return {'message': 'No input data provided'}, 400
         # Validate and deserialize input
