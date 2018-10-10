@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from flask_restful import Resource
 from Model import db, Comment, Category, CommentSchema
+import simplejson as json
 
 comments_schema = CommentSchema(many=True)
 comment_schema = CommentSchema()
@@ -12,7 +13,7 @@ class CommentResource(Resource):
         return {"status":"success", "data":comments}, 200
 
     def post(self):
-        json_data = request.get_json(force=True)
+        json_data = json.loads(request.data)
         if not json_data:
                return {'message': 'No input data provided'}, 400
         # Validate and deserialize input

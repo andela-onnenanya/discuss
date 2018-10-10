@@ -1,0 +1,11 @@
+=====================================
+Model your `comment-app` to accommodate translations for the comments.
+Each comment should have a translation in 3 languages (French, German, Spanish)
+stored in a relational database.
+
+Category: Algorithms
+Comment: merge sort is Lovely
+Translations: Fr - French: merge sort is Lovely
+              Gr - German: merge sort is Lovely
+              Sp - Spanish: merge sort is Lovely
+I would also like different users to assign a score to the comments.

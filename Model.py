@@ -21,6 +21,29 @@ class Comment(db.Model):
         self.category_id = category_id
 
 
+class Translation(db.Model):
+    __tablename__ = 'translations'
+    id = db.Column(db.Integer, primary_key=True)
+    translation = db.Column(db.String(250), nullable=False)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id', ondelete='CASCADE'), nullable=False)
+    comment = db.relationship('Comment', backref=db.backref('translations', lazy='dynamic' ))
+    language_id = db.Column(db.Integer, db.ForeignKey('languages.id', ondelete='CASCADE'), nullable=False)
+    comment = db.relationship('Language', backref=db.backref('translations', lazy='dynamic' ))
+
+    def __init__(self, translation, comment_id):
+        self.translation = translation
+        self.comment_id = comment_id
+
+class Language(db.Model):
+    __tablename__ = 'languages'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    code = db.Column(db.String(2), nullable=False)
+
+    def __init__(self, name, code):
+        self.name = name
+        self.code = code
+
 class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +57,17 @@ class CategorySchema(ma.Schema):
     id = fields.Integer()
     name = fields.String(required=True)
 
+class LanguageSchema(ma.Schema):
+    id = fields.Integer()
+    name = fields.String(required=True)
+    code = fields.String(required=True)
+
+
+class TranslationSchema(ma.Schema):
+    id = fields.Integer(dump_only=True)
+    comment_id = fields.Integer(required=True)
+    translation = fields.String(required=True, validate=validate.Length(1))
+    language_id = fields.Integer(required=True)
 
 class CommentSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
