@@ -43,6 +43,9 @@ class CategoryResource(Resource):
         if errors:
             return errors, 422
         category = Category.query.filter_by(id=data['id']).first()
+        category_by_name = Category.query.filter_by(name=data['name']).first()
+        if data['id'] != category_by_name.id:
+            return {'message': 'Category already exists'}, 400
         if not category:
             return {'message': 'Category does not exist'}, 400
         category.name = data['name']
